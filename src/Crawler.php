@@ -225,7 +225,9 @@ class Crawler
         $getDocument = new DOMDocument();
         $getDocument->preserveWhiteSpace = false;
         $getDocument->loadHTML($html['content']);
-        $removeTags = ['script', 'style', 'iframe', 'link', 'script'];
+
+        $optionals = ['iframe','ul'];
+        $removeTags = ['script', 'style', ...$optionals, 'link', 'script'];
 
         foreach ($removeTags as $tag) {
             $element = $getDocument->getElementsByTagName($tag);
