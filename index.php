@@ -3,8 +3,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-spl_autoload_register(function($class){
-    require_once './src/'.str_replace('\\','/', $class) . '.php';
+spl_autoload_register(function($class) {
+    include 'src/' . str_replace('\\', '/', $class) . '.php';
 });
 
 use src\Crawler\Crawler;
