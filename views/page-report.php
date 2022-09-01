@@ -21,7 +21,7 @@
             <b>Pages Crawled:</b> <?= $pages ?><br/>
             <b>Unique images:</b> <?= $imgStorage ?><br/>
             <b>Unique Internal Links:</b> <?=$urlStorageInternal?><br/>
-            <b>Unique External Links:</b> <?=urlStorageExternal?><br/>
+            <b>Unique External Links:</b> <?=$urlStorageExternal?><br/>
             <b>Average Load Time:</b> <?=$avgLoadTime?> ms<br/>
             <b>Average Word Count:</b> <?=$avgWordCount?><br/>
             <b>Average Title Length:</b> <?=$avgTitleLength?>
