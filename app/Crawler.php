@@ -18,16 +18,16 @@ class Crawler
      * @var $mainURL main url of the website
      */
 
-    protected int $pages = 0;
-    protected int $depth = 0;
-    protected array $urlStorageInternal = [];
-    protected array $urlStorageExternal = [];
-    protected array $imgStorage = [];
-    protected array $httpStatusStorage = [];
-    protected array $avgLoadTime = [];
-    protected array $avgTitleLength = [];
-    protected array $avgWordCount = [];
-    protected ?string $mainURL = null;
+    private int $pages = 0;
+    private int $depth;
+    private array $urlStorageInternal = [];
+    private array $urlStorageExternal = [];
+    private array $imgStorage = [];
+    private array $httpStatusStorage = [];
+    private array $avgLoadTime = [];
+    private array $avgTitleLength = [];
+    private array $avgWordCount = [];
+    private string $mainURL;
 
     /**
      * Index of the crawler (function name created by codeigniter)
