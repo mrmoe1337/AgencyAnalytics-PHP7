@@ -47,6 +47,8 @@ class Crawler
     public function createReport(): Crawler
     {
         $filePath = __DIR__."../views/page-report.php";
+        echo  __DIR__."../views/page-report.php";
+        die();
         $output = NULL;
         if(file_exists($filePath)){
             $variables = ['hello' => 'test'];
