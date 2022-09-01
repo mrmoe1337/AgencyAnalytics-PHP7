@@ -27,7 +27,7 @@ class Crawler
     protected array $avgLoadTime = [];
     protected array $avgTitleLength = [];
     protected array $avgWordCount = [];
-    protected string $mainURL = '';
+    protected ?string $mainURL = null;
 
     /**
      * Index of the crawler (function name created by codeigniter)
@@ -37,14 +37,12 @@ class Crawler
     {
         $this->depth = $depth;
         $this->mainURL = $url;
-        $this->crawlPage($url);
-        $this->createReport();
     }
 
     /**
-     * @return void
+     * @return Crawler
      */
-    public function createReport() : void
+    public function createReport() : Crawler
     {
         echo "Pages Crawled: " .$this->pages."<br/>";
         echo "Unique images: " .count($this->imgStorage)."<br/>";
@@ -61,15 +59,17 @@ class Crawler
             echo "<tr><td>".$item['url']. "</td> <td>" .$item['status'] . "</td></tr>";
         }
         echo "</table>";
+        return $this;
     }
 
     /**
      * Triggers the crawling of the pages
-     * @param $url
-     * @return void
+     * @return Crawler
      */
-    private function crawlPage($url) : void
+    public function crawlPage() : Crawler
     {
+        $url = $this->mainURL;
+
         $data = $this->getHTTPRequest($url, false);
 
         $getDocument = new DOMDocument();
@@ -86,6 +86,7 @@ class Crawler
         }
 
         $this->fetchInfo($url, $paths);
+        return $this;
     }
 
     /**
