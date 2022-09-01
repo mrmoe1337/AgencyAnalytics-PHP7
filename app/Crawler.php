@@ -37,6 +37,7 @@ class Crawler
     {
         $this->depth = $depth;
         $this->mainURL = $url;
+        $this->crawlPage($url);
     }
 
     /**
