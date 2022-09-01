@@ -52,7 +52,7 @@ class Crawler
         $output = NULL;
         if (file_exists($filePath)) {
 
-            $eq = (fn($avgTitleLength) => array_sum($this)/count($this));
+            $eq = (fn(array $avgTitleLength) => array_sum($this)/count($this));
 
             $vars = [
                 'pages' => $this->pages,
