@@ -51,6 +51,9 @@ class Crawler
         $filePath = "./views/page-report.php";
         $output = NULL;
         if (file_exists($filePath)) {
+
+            $eq = (fn($avgTitleLength) => array_sum($this)/count($this));
+
             $vars = [
                 'pages' => $this->pages,
                 'imgStorage' => count($this->imgStorage),
@@ -58,7 +61,7 @@ class Crawler
                 'urlStorageExternal' => count($this->urlStorageExternal),
                 'avgLoadTime' => array_sum($this->avgLoadTime) / count($this->avgLoadTime),
                 'avgWordCount' => array_sum($this->avgWordCount) / count($this->avgWordCount),
-                'avgTitleLength' => (fn($avgTitleLength) => array_sum($this->avgTitleLength)/count($this->avgTitleLength)),
+                'avgTitleLength' => $eq($this->avgTitleLength),
                 'httpStatusStorage' => $this->httpStatusStorage
             ];
             extract($vars);
