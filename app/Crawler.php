@@ -49,7 +49,16 @@ class Crawler
         $filePath = "./views/page-report.php";
         $output = NULL;
         if(file_exists($filePath)){
-            $variables = ['hello' => 'test'];
+            $variables = [
+                'pages' =>  $this->pages,
+                'imgStorage' => count($this->imgStorage),
+                'urlStorageInternal' => count($this->urlStorageInternal),
+                'urlStorageExternal' => count($this->urlStorageExternal),
+                'avgLoadTime' => array_sum($this->avgLoadTime) / count($this->avgLoadTime),
+                'avgWordCount' => array_sum($this->avgWordCount) / count($this->avgWordCount),
+                'avgTitleLength' => array_sum($this->avgTitleLength) / count($this->avgTitleLength),
+                'httpStatusStorage' => $this->httpStatusStorage
+            ];
             extract($variables);
             ob_start();
             include $filePath;
