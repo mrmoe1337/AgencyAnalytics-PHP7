@@ -9,4 +9,3 @@ use app\Crawler\Crawler;
 
 $crawler = new Crawler('https://agencyanalytics.com',5);
 
-
