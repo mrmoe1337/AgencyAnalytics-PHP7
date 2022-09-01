@@ -58,7 +58,7 @@ class Crawler
                 'urlStorageExternal' => count($this->urlStorageExternal),
                 'avgLoadTime' => array_sum($this->avgLoadTime) / count($this->avgLoadTime),
                 'avgWordCount' => array_sum($this->avgWordCount) / count($this->avgWordCount),
-                'avgTitleLength' => array_sum($this->avgTitleLength) / count($this->avgTitleLength),
+                'avgTitleLength' => (fn($avgTitleLength) => array_sum($this->avgTitleLength)/count($this->avgTitleLength)),
                 'httpStatusStorage' => $this->httpStatusStorage
             ];
             extract($vars);
@@ -67,7 +67,6 @@ class Crawler
             $output = ob_get_clean();
         }
         echo $output;
-
         return $this;
     }
 
