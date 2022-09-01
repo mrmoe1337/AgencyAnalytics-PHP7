@@ -96,7 +96,11 @@ class Crawler
             }
         }
 
-        $this->fetchInfo($url, $paths);
+        $this->fetchInfo(
+            url: $url,
+            paths: $paths
+        );
+
         return $this;
     }
 
@@ -179,18 +183,20 @@ class Crawler
      */
     private function scanAnchors(DOMNodeList $anchors): void
     {
+        $notInArray = (fn($x,$y)=>!in_array($x,$y));
+
         foreach ($anchors as $element) {
             $href = $element->getAttribute('href');
             if ($this->isInternal($href)) {
-                if (!in_array($href, $this->urlStorageInternal)) {
+                if ($notInArray($href, $this->urlStorageInternal)) {
                     $this->urlStorageInternal[] = $href;
                 }
             } else {
                 $parse = parse_url($href);
-                if (!in_array($href, $this->urlStorageExternal) && isset($parse['host'])) {
+                if ($notInArray($href, $this->urlStorageExternal) && isset($parse['host'])) {
                     // counting subdomains as external
                     $this->urlStorageExternal[] = $href;
-                } elseif (!in_array($href, $this->urlStorageExternal)) {
+                } elseif ($notInArray($href, $this->urlStorageExternal)) {
                     // nice trick with the href="#main" it ends up here :)
                 }
             }
