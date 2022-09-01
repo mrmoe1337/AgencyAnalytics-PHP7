@@ -1,6 +1,7 @@
 <?php
 
 namespace app\Crawler;
+
 use DOMDocument;
 use DOMNodeList;
 
@@ -43,21 +44,21 @@ class Crawler
     /**
      * @return Crawler
      */
-    public function createReport() : Crawler
+    public function createReport(): Crawler
     {
-        echo "Pages Crawled: " .$this->pages."<br/>";
-        echo "Unique images: " .count($this->imgStorage)."<br/>";
-        echo "Unique Internal Links: " .count($this->urlStorageInternal)."<br/>";
-        echo "Unique External Links: " .count($this->urlStorageExternal)."<br/>";
-        echo "Average Load Time: " .array_sum($this->avgLoadTime)/count($this->avgLoadTime)."<br/>";
-        echo "Average Word Count: " .array_sum($this->avgWordCount)/count($this->avgWordCount)."<br/>";
-        echo "Average Title Length: " .array_sum($this->avgTitleLength)/count($this->avgTitleLength);
+        echo "Pages Crawled: " . $this->pages . "<br/>";
+        echo "Unique images: " . count($this->imgStorage) . "<br/>";
+        echo "Unique Internal Links: " . count($this->urlStorageInternal) . "<br/>";
+        echo "Unique External Links: " . count($this->urlStorageExternal) . "<br/>";
+        echo "Average Load Time: " . array_sum($this->avgLoadTime) / count($this->avgLoadTime) . "<br/>";
+        echo "Average Word Count: " . array_sum($this->avgWordCount) / count($this->avgWordCount) . "<br/>";
+        echo "Average Title Length: " . array_sum($this->avgTitleLength) / count($this->avgTitleLength);
 
         echo "<h3>Crawled Pages</h3>";
         echo "<table style='margin:10px 0 0 0;' border='1'>";
         echo "<thead><tr><td>URL</td><td>HTTP Status</td></tr></thead>";
         foreach ($this->httpStatusStorage as $item) {
-            echo "<tr><td>".$item['url']. "</td> <td>" .$item['status'] . "</td></tr>";
+            echo "<tr><td>" . $item['url'] . "</td> <td>" . $item['status'] . "</td></tr>";
         }
         echo "</table>";
         return $this;
@@ -67,7 +68,7 @@ class Crawler
      * Triggers the crawling of the pages
      * @return Crawler
      */
-    public function crawlPage() : Crawler
+    public function crawlPage(): Crawler
     {
         $url = $this->mainURL;
 
@@ -96,7 +97,7 @@ class Crawler
      * @param array $paths
      * @return void
      */
-    private function fetchInfo(string $url, array $paths) : void
+    private function fetchInfo(string $url, array $paths): void
     {
         if (!empty($paths)) {
             foreach ($paths as $item) {
@@ -137,7 +138,7 @@ class Crawler
      * @param array $data
      * @return void
      */
-    private function setHTTPStatuses(array $data) : void
+    private function setHTTPStatuses(array $data): void
     {
         $this->httpStatusStorage[] = $data;
     }
@@ -147,7 +148,7 @@ class Crawler
      * @param float $totalTime
      * @return void
      */
-    private function setLoadTimes(float $totalTime) : void
+    private function setLoadTimes(float $totalTime): void
     {
         $this->avgLoadTime[] = $totalTime;
     }
@@ -157,7 +158,7 @@ class Crawler
      * @param DOMNodeList $titles
      * @return void
      */
-    private function scanTitles(DOMNodeList $titles) : void
+    private function scanTitles(DOMNodeList $titles): void
     {
         $this->avgTitleLength[] = strlen($titles[0]->nodeValue);
     }
@@ -167,7 +168,7 @@ class Crawler
      * @param DOMNodeList $anchors
      * @return void
      */
-    private function scanAnchors(DOMNodeList $anchors) : void
+    private function scanAnchors(DOMNodeList $anchors): void
     {
         foreach ($anchors as $element) {
             $href = $element->getAttribute('href');
@@ -192,7 +193,7 @@ class Crawler
      * @param DOMNodeList $images
      * @return void
      */
-    private function scanImages(DOMNodeList $images) : void
+    private function scanImages(DOMNodeList $images): void
     {
         foreach ($images as $element) {
             $src = $element->getAttribute('data-src');
@@ -209,7 +210,7 @@ class Crawler
      * @param string $url
      * @return void
      */
-    private function fetchWordCount(string $url) : void
+    private function fetchWordCount(string $url): void
     {
         libxml_use_internal_errors(true);
         $html = $this->getHTTPRequest($url, false);
@@ -236,7 +237,7 @@ class Crawler
      * @param string $url
      * @return bool
      */
-    private function isInternal(string $url) : bool
+    private function isInternal(string $url): bool
     {
         $parse = parse_url($url);
         if (isset($parse['scheme']) || isset($parse['host'])) {
@@ -258,7 +259,7 @@ class Crawler
      * @param string $headers
      * @return array
      */
-    private function getHTTPRequest(string $url, string $headers) : array
+    private function getHTTPRequest(string $url, string $headers): array
     {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
