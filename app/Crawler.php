@@ -37,8 +37,8 @@ class Crawler
      */
     public function __construct(string $url, int $depth)
     {
-        $this->depth = $depth;
         $this->mainURL = $url;
+        $this->depth = $depth;
     }
 
     /**
