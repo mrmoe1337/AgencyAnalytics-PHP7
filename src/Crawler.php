@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Crawler;
+namespace src\Crawler;
 
 use DOMDocument;
 use DOMNodeList;
