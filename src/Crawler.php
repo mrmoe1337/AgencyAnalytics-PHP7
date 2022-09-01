@@ -237,7 +237,8 @@ class Crawler
         }
 
         $getDocument->saveHTML();
-        $count = str_word_count(preg_replace("/\n\t+/", "", $getDocument->getElementsByTagName('body')->item(0)->nodeValue));
+        $html = $getDocument->getElementsByTagName('body')->item(0)->nodeValue;
+        $count = str_word_count(preg_replace("/\n\t+/", "", $html));
         $this->avgWordCount[] = $count;
     }
 
