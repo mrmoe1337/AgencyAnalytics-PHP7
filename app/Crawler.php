@@ -2,6 +2,7 @@
 
 namespace app\Crawler;
 use DOMDocument;
+use DOMNodeList;
 
 class Crawler
 {
@@ -33,7 +34,7 @@ class Crawler
      * Index of the crawler (function name created by codeigniter)
      * @return void
      */
-    public function __construct($url,$depth)
+    public function __construct(string $url, int $depth)
     {
         $this->depth = $depth;
         $this->mainURL = $url;
@@ -91,11 +92,11 @@ class Crawler
 
     /**
      * Fetches information for paths
-     * @param $url
-     * @param $paths
+     * @param string $url
+     * @param array $paths
      * @return void
      */
-    private function fetchInfo($url, $paths) : void
+    private function fetchInfo(string $url, array $paths) : void
     {
         if (!empty($paths)) {
             foreach ($paths as $item) {
@@ -133,40 +134,40 @@ class Crawler
 
     /**
      * Sets HTTP status for all the pages
-     * @param $data
+     * @param array $data
      * @return void
      */
-    private function setHTTPStatuses($data) : void
+    private function setHTTPStatuses(array $data) : void
     {
         $this->httpStatusStorage[] = $data;
     }
 
     /**
      * Sets Load times so that we can get an average later on
-     * @param $totalTime
+     * @param float $totalTime
      * @return void
      */
-    private function setLoadTimes($totalTime) : void
+    private function setLoadTimes(float $totalTime) : void
     {
         $this->avgLoadTime[] = $totalTime;
     }
 
     /**
      * Scans for the titles and adds them to the array
-     * @param $titles
+     * @param DOMNodeList $titles
      * @return void
      */
-    private function scanTitles($titles) : void
+    private function scanTitles(DOMNodeList $titles) : void
     {
         $this->avgTitleLength[] = strlen($titles[0]->nodeValue);
     }
 
     /**
      * Scans for anchor tags and finds out if they're internal or external
-     * @param $anchors
+     * @param DOMNodeList $anchors
      * @return void
      */
-    private function scanAnchors($anchors) : void
+    private function scanAnchors(DOMNodeList $anchors) : void
     {
         foreach ($anchors as $element) {
             $href = $element->getAttribute('href');
@@ -188,10 +189,10 @@ class Crawler
 
     /**
      * Scans for unique images
-     * @param $images
+     * @param DOMNodeList $images
      * @return void
      */
-    private function scanImages($images) : void
+    private function scanImages(DOMNodeList $images) : void
     {
         foreach ($images as $element) {
             $src = $element->getAttribute('data-src');
@@ -205,10 +206,10 @@ class Crawler
 
     /**
      * fetches word count inside the body tag
-     * @param $url
+     * @param string $url
      * @return void
      */
-    private function fetchWordCount($url) : void
+    private function fetchWordCount(string $url) : void
     {
         libxml_use_internal_errors(true);
         $html = $this->getHTTPRequest($url, false);
@@ -232,10 +233,10 @@ class Crawler
 
     /**
      * Checks if an url is internal or external in the source code
-     * @param $url
+     * @param string $url
      * @return bool
      */
-    private function isInternal($url) : bool
+    private function isInternal(string $url) : bool
     {
         $parse = parse_url($url);
         if (isset($parse['scheme']) || isset($parse['host'])) {
@@ -253,11 +254,11 @@ class Crawler
 
     /**
      * Fires a cURL request
-     * @param $url
-     * @param $headers
+     * @param string $url
+     * @param string $headers
      * @return array
      */
-    private function getHTTPRequest($url, $headers) : array
+    private function getHTTPRequest(string $url, string $headers) : array
     {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
