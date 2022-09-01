@@ -226,7 +226,7 @@ class Crawler
         $getDocument->preserveWhiteSpace = false;
         $getDocument->loadHTML($html['content']);
 
-        $optionals = ['iframe', 'ul']; //just to show unpacking inside an array :)
+        $optionals = ['iframe']; //just to show unpacking inside an array :)
         $removeTags = ['script', 'style', ...$optionals, 'link', 'script'];
 
         foreach ($removeTags as $tag) {
