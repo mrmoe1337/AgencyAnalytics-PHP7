@@ -210,10 +210,12 @@ class Crawler
      */
     private function scanImages(DOMNodeList $images): void
     {
+        $notInArray = (fn($x,$y)=>!in_array($x,$y));
+
         foreach ($images as $element) {
             $src = $element->getAttribute('data-src');
             if (!empty($src)) {
-                if (!in_array($src, $this->imgStorage)) {
+                if ($notInArray($src, $this->imgStorage)) {
                     $this->imgStorage[] = $src;
                 }
             }
