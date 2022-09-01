@@ -22,13 +22,13 @@ class Crawler
 
     private int $pages = 0;
     private int $depth;
-    private array $urlStorageInternal;
-    private array $urlStorageExternal;
-    private array $imgStorage;
-    private array $httpStatusStorage;
-    private array $avgLoadTime;
-    private array $avgTitleLength;
-    private array $avgWordCount;
+    private array $urlStorageInternal = [];
+    private array $urlStorageExternal = [];
+    private array $imgStorage = [];
+    private array $httpStatusStorage = [];
+    private array $avgLoadTime = [];
+    private array $avgTitleLength = [];
+    private array $avgWordCount = [];
     private string $mainURL;
 
     /**
@@ -46,21 +46,17 @@ class Crawler
      */
     public function createReport(): Crawler
     {
-        echo "Pages Crawled: " . $this->pages . "<br/>";
-        echo "Unique images: " . count($this->imgStorage) . "<br/>";
-        echo "Unique Internal Links: " . count($this->urlStorageInternal) . "<br/>";
-        echo "Unique External Links: " . count($this->urlStorageExternal) . "<br/>";
-        echo "Average Load Time: " . array_sum($this->avgLoadTime) / count($this->avgLoadTime) . "<br/>";
-        echo "Average Word Count: " . array_sum($this->avgWordCount) / count($this->avgWordCount) . "<br/>";
-        echo "Average Title Length: " . array_sum($this->avgTitleLength) / count($this->avgTitleLength);
-
-        echo "<h3>Crawled Pages</h3>";
-        echo "<table style='margin:10px 0 0 0;' border='1'>";
-        echo "<thead><tr><td>URL</td><td>HTTP Status</td></tr></thead>";
-        foreach ($this->httpStatusStorage as $item) {
-            echo "<tr><td>" . $item['url'] . "</td> <td>" . $item['status'] . "</td></tr>";
+        $filePath = __DIR__."../views/page-report.php";
+        $output = NULL;
+        if(file_exists($filePath)){
+            $variables = ['hello' => 'test'];
+            extract($variables);
+            ob_start();
+            include $filePath;
+            $output = ob_get_clean();
         }
-        echo "</table>";
+        echo $output;
+
         return $this;
     }
 
