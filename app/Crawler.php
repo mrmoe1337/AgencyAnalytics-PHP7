@@ -32,7 +32,7 @@ class Crawler
     private string $mainURL;
 
     /**
-     * our constructor
+     * Our constructor
      * @param string $url
      * @param int $depth
      */
@@ -52,9 +52,8 @@ class Crawler
         $output = NULL;
         if (file_exists($filePath)) {
 
-            $average = (fn($x) => array_sum($x)/count($x));
-            $count = (fn($x)=>count($x));
-
+            $average = (fn($x) => array_sum($x) / count($x));
+            $count = (fn($x) => count($x));
 
             $vars = [
                 'pages' => $this->pages,
