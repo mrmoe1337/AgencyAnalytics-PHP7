@@ -78,7 +78,6 @@ class Crawler
     public function crawlPage(): Crawler
     {
         $url = $this->mainURL;
-
         $data = $this->getHTTPRequest($url, false);
 
         $getDocument = new DOMDocument();
