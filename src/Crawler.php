@@ -50,9 +50,9 @@ class Crawler
     {
         $filePath = "./views/page-report.php";
         $output = NULL;
-        if(file_exists($filePath)){
+        if (file_exists($filePath)) {
             $vars = [
-                'pages' =>  $this->pages,
+                'pages' => $this->pages,
                 'imgStorage' => count($this->imgStorage),
                 'urlStorageInternal' => count($this->urlStorageInternal),
                 'urlStorageExternal' => count($this->urlStorageExternal),
@@ -226,7 +226,7 @@ class Crawler
         $getDocument->preserveWhiteSpace = false;
         $getDocument->loadHTML($html['content']);
 
-        $optionals = ['iframe','ul'];
+        $optionals = ['iframe', 'ul'];
         $removeTags = ['script', 'style', ...$optionals, 'link', 'script'];
 
         foreach ($removeTags as $tag) {
