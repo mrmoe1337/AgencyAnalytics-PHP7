@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 spl_autoload_register(function($class) {
-    require_once 'app/' . str_replace('\\', '/', $class) . '.php';
+    require 'app/' . str_replace('\\', '/', $class) . '.php';
 });
 
 use app\Crawler\Crawler;
