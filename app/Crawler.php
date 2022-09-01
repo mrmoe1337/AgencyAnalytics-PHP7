@@ -52,16 +52,18 @@ class Crawler
         $output = NULL;
         if (file_exists($filePath)) {
 
-            $eq = (fn($x) => array_sum($x)/count($x));
+            $average = (fn($x) => array_sum($x)/count($x));
+            $count = (fn($x)=>count($x));
+
 
             $vars = [
                 'pages' => $this->pages,
-                'imgStorage' => count($this->imgStorage),
-                'urlStorageInternal' => count($this->urlStorageInternal),
-                'urlStorageExternal' => count($this->urlStorageExternal),
-                'avgLoadTime' => array_sum($this->avgLoadTime) / count($this->avgLoadTime),
-                'avgWordCount' => array_sum($this->avgWordCount) / count($this->avgWordCount),
-                'avgTitleLength' => $eq($this->avgTitleLength),
+                'imgStorage' => $count($this->imgStorage),
+                'urlStorageInternal' => $count($this->urlStorageInternal),
+                'urlStorageExternal' => $count($this->urlStorageExternal),
+                'avgLoadTime' => $average($this->avgLoadTime),
+                'avgWordCount' => $average($this->avgWordCount),
+                'avgTitleLength' => $average($this->avgTitleLength),
                 'httpStatusStorage' => $this->httpStatusStorage
             ];
             extract($vars);
