@@ -38,6 +38,7 @@ class Crawler
         $this->depth = $depth;
         $this->mainURL = $url;
         $this->crawlPage($url);
+        $this->createReport();
     }
 
     /**
@@ -253,7 +254,7 @@ class Crawler
      * Fires a cURL request
      * @param $url
      * @param $headers
-     * @return array|string
+     * @return array
      */
     private function getHTTPRequest($url, $headers) : array
     {
