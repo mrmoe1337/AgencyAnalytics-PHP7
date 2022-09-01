@@ -32,8 +32,9 @@ class Crawler
     private string $mainURL;
 
     /**
-     * Index of the crawler (function name created by codeigniter)
-     * @return void
+     * our constructor
+     * @param string $url
+     * @param int $depth
      */
     public function __construct(string $url, int $depth)
     {
@@ -42,6 +43,7 @@ class Crawler
     }
 
     /**
+     * Creates the fancy report
      * @return Crawler
      */
     public function createReport(): Crawler
@@ -49,7 +51,7 @@ class Crawler
         $filePath = "./views/page-report.php";
         $output = NULL;
         if(file_exists($filePath)){
-            $variables = [
+            $vars = [
                 'pages' =>  $this->pages,
                 'imgStorage' => count($this->imgStorage),
                 'urlStorageInternal' => count($this->urlStorageInternal),
@@ -59,7 +61,7 @@ class Crawler
                 'avgTitleLength' => array_sum($this->avgTitleLength) / count($this->avgTitleLength),
                 'httpStatusStorage' => $this->httpStatusStorage
             ];
-            extract($variables);
+            extract($vars);
             ob_start();
             include $filePath;
             $output = ob_get_clean();
