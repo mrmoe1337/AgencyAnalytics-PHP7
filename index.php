@@ -10,6 +10,6 @@ use app\Crawler\Crawler;
 use app\Crawler\Reporting;
 
 $crawler = new Crawler('https://agencyanalytics.com',5);
-$reporting = new Reporting();
+$reporting = new Reporting('https://agencyanalytics.com',5);
 $reporting->createReport();
 
