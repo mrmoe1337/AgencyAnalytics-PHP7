@@ -7,7 +7,5 @@ spl_autoload_register(function($class) {
     include 'src/' . str_replace('\\', '/', $class) . '.php';
 });
 
-use src\Crawler\Crawler;
-
 $crawler = new Crawler('https://agencyanalytics.com',5);
 $crawler->crawlPage()->createReport();
