@@ -22,13 +22,13 @@ class Crawler
 
     private int $pages = 0;
     private int $depth;
-    private array $urlStorageInternal = [];
-    private array $urlStorageExternal = [];
-    private array $imgStorage = [];
-    private array $httpStatusStorage = [];
-    private array $avgLoadTime = [];
-    private array $avgTitleLength = [];
-    private array $avgWordCount = [];
+    private array $urlStorageInternal;
+    private array $urlStorageExternal;
+    private array $imgStorage;
+    private array $httpStatusStorage;
+    private array $avgLoadTime;
+    private array $avgTitleLength;
+    private array $avgWordCount;
     private string $mainURL;
 
     /**
