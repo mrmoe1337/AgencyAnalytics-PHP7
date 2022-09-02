@@ -95,7 +95,7 @@ class Crawler
             }
         }
 
-        $this->fetchInfo($url, $paths); // test
+        $this->fetchInfo($url, $paths);
 
         return $this;
     }
