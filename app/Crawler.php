@@ -85,14 +85,8 @@ class Crawler
         @$getDocument->loadHTML($data['content']);
 
         $anchors = $getDocument->getElementsByTagName('a');
-        $paths = [];
-
-        foreach ($anchors as $element) {
-            $href = $element->getAttribute('href');
-            if (count($paths) != $this->depth && $this->isInternal($href)) {
-                $paths[] = $href;
-            }
-        }
+        $href = array_map (fn ($element) => $element->getAttribute('href'),$anchors);
+        $paths[] = $href;
 
         $this->fetchInfo($url, $paths);
 
