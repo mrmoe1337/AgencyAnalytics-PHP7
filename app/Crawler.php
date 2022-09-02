@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Crawler;
+namespace AgencyAnalytics\App;
 
 use DOMDocument;
 use DOMNodeList;
