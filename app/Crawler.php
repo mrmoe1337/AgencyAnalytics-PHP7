@@ -85,8 +85,14 @@ class Crawler
         @$getDocument->loadHTML($data['content']);
 
         $anchors = $getDocument->getElementsByTagName('a');
-        $href = array_map(fn($element) => $element->getAttribute('href'), $anchors);
-        $paths[] = $href;
+        $paths = [];
+
+        foreach ($anchors as $element) {
+            $href = $element->getAttribute('href');
+            if (count($paths) != $this->depth && $this->isInternal($href)) {
+                $paths[] = $href;
+            }
+        }
 
         $this->fetchInfo($url, $paths);
 
@@ -172,7 +178,7 @@ class Crawler
      */
     private function scanAnchors(DOMNodeList $anchors): void
     {
-        $notInArray = (fn($x, $y) => !in_array($x, $y));
+        $notInArray = (fn($x,$y)=>!in_array($x,$y));
 
         foreach ($anchors as $element) {
             $href = $element->getAttribute('href');
@@ -199,7 +205,7 @@ class Crawler
      */
     private function scanImages(DOMNodeList $images): void
     {
-        $notInArray = (fn($x, $y) => !in_array($x, $y));
+        $notInArray = (fn($x,$y)=>!in_array($x,$y));
 
         foreach ($images as $element) {
             $src = $element->getAttribute('data-src');
