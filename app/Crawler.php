@@ -62,6 +62,7 @@ class Crawler
                 'avgTitleLength' => $average($this->avgTitleLength),
                 'httpStatusStorage' => $this->httpStatusStorage
             ];
+
             extract($vars);
             ob_start();
             include $filePath;
