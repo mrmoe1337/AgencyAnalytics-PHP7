@@ -50,7 +50,6 @@ class Crawler
         $filePath = "./views/page-report.php";
         $output = NULL;
         if (file_exists($filePath)) {
-
             $average = (fn($x) => array_sum($x) / count($x));
             $count = (fn($x) => count($x));
 
