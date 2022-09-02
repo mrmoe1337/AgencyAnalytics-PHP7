@@ -19,7 +19,6 @@ class Crawler
      * @var $avgWordCount stores the average word count of a page
      * @var $mainURL main url of the website
      */
-
     private int $pages = 0;
     private int $depth;
     private array $urlStorageInternal = [];
@@ -78,7 +77,7 @@ class Crawler
      * Triggers the crawling of the pages
      * @return Crawler
      */
-    public function crawlPage(): Crawler
+    public function crawlPages(): Crawler
     {
         $url = $this->mainURL;
         $data = $this->getHTTPRequest($url, false);
@@ -96,10 +95,7 @@ class Crawler
             }
         }
 
-        $this->fetchInfo(
-            url: $url,
-            paths: $paths
-        );
+        $this->fetchInfo($url, $paths);
 
         return $this;
     }
@@ -119,11 +115,11 @@ class Crawler
                 $getDocument = new DOMDocument();
                 @$getDocument->loadHTML($data['content']);
 
-                $this->setHTTPStatuses(array(
+                $this->setHTTPStatuses([
                     'url' => $url . $item,
                     'status' => $data['status'],
                     'loadTime' => $data['totalTime']
-                ));
+                ]);
 
                 // Insert Load Times
                 $this->setLoadTimes($data['totalTime']);

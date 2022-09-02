@@ -7,4 +7,4 @@ require_once "app/Crawler.php";
 use app\Crawler\Crawler as Crawler;
 
 $crawler = new Crawler('https://agencyanalytics.com',5);
-$crawler->crawlPage()->createReport();
+$crawler->crawlPages()->createReport();
