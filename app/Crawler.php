@@ -81,12 +81,15 @@ class Crawler
     public function crawlPage(): Crawler
     {
         $url = $this->mainURL;
-        $data = $this->getHTTPRequest($url, false);
+        $data = $this->getHTTPRequest(
+            url: $url,
+            headers: false
+        );
 
         $getDocument = new DOMDocument();
         @$getDocument->loadHTML($data['content']);
 
-        $anchors = $getDocument->getElementsByTagName('a');
+        $anchors = $getDocument->getElementsByTagName(qualifiedName: 'a');
         $paths = [];
 
         foreach ($anchors as $element) {
@@ -114,7 +117,10 @@ class Crawler
     {
         if (!empty($paths)) {
             foreach ($paths as $item) {
-                $data = $this->getHTTPRequest($url . $item, true);
+                $data = $this->getHTTPRequest(
+                    url: $url . $item,
+                    headers: true
+                );
 
                 $getDocument = new DOMDocument();
                 @$getDocument->loadHTML($data['content']);
@@ -129,16 +135,18 @@ class Crawler
                 $this->setLoadTimes($data['totalTime']);
 
                 // Count words
-                $this->fetchWordCount($url . $item);
+                $this->fetchWordCount(
+                    url: $url . $item
+                );
 
                 // scan title tags
-                $this->scanTitles($getDocument->getElementsByTagName('title'));
+                $this->scanTitles($getDocument->getElementsByTagName(qualifiedName: 'title'));
 
                 // Scan anchor tags
-                $this->scanAnchors($getDocument->getElementsByTagName('a'));
+                $this->scanAnchors($getDocument->getElementsByTagName(qualifiedName: 'a'));
 
                 // Scan image tags
-                $this->scanImages($getDocument->getElementsByTagName('img'));
+                $this->scanImages($getDocument->getElementsByTagName(qualifiedName: 'img'));
 
                 // Crawled pages
                 $this->pages++;
@@ -183,7 +191,7 @@ class Crawler
      */
     private function scanAnchors(DOMNodeList $anchors): void
     {
-        $notInArray = (fn($x,$y)=>!in_array($x,$y));
+        $notInArray = (fn($x, $y) => !in_array($x, $y));
 
         foreach ($anchors as $element) {
             $href = $element->getAttribute('href');
@@ -210,7 +218,7 @@ class Crawler
      */
     private function scanImages(DOMNodeList $images): void
     {
-        $notInArray = (fn($x,$y)=>!in_array($x,$y));
+        $notInArray = (fn($x, $y) => !in_array($x, $y));
 
         foreach ($images as $element) {
             $src = $element->getAttribute('data-src');
@@ -229,8 +237,11 @@ class Crawler
      */
     private function fetchWordCount(string $url): void
     {
-        libxml_use_internal_errors(true);
-        $html = $this->getHTTPRequest($url, false);
+        libxml_use_internal_errors(use_errors: true);
+        $html = $this->getHTTPRequest(
+            url: $url,
+            headers: false
+        );
 
         $getDocument = new DOMDocument();
         $getDocument->preserveWhiteSpace = false;
@@ -247,8 +258,8 @@ class Crawler
         }
 
         $getDocument->saveHTML();
-        $html = $getDocument->getElementsByTagName('body')->item(0)->nodeValue;
-        $count = str_word_count(preg_replace("/\n\t+/", "", $html));
+        $html = $getDocument->getElementsByTagName(qualifiedName: 'body')->item(index: 0)->nodeValue;
+        $count = str_word_count(preg_replace(pattern: "/\n\t+/", replacement: "", subject: $html));
         $this->avgWordCount[] = $count;
     }
 
@@ -282,20 +293,20 @@ class Crawler
     private function getHTTPRequest(string $url, string $headers): array
     {
         $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, option: CURLOPT_URL, value: $url);
+        curl_setopt($curl, option: CURLOPT_RETURNTRANSFER, value: true);
+        curl_setopt($curl, option: CURLOPT_SSL_VERIFYHOST, value: false);
+        curl_setopt($curl, option: CURLOPT_SSL_VERIFYPEER, value: false);
 
         if ($headers) {
-            curl_setopt($curl, CURLOPT_HEADER, true);
+            curl_setopt($curl, option: CURLOPT_HEADER, value: true);
             $resp = curl_exec($curl);
-            $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            $totalTime = curl_getinfo($curl, CURLINFO_TOTAL_TIME);
+            $httpStatus = curl_getinfo($curl, option: CURLINFO_HTTP_CODE);
+            $totalTime = curl_getinfo($curl, option: CURLINFO_TOTAL_TIME);
             curl_close($curl);
             return [
                 'status' => $httpStatus,
-                'totalTime' => floor($totalTime * 1000),
+                'totalTime' => floor(num: $totalTime * 1000),
                 'content' => $resp
             ];
         } else {
