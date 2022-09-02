@@ -1,7 +1,6 @@
 <?php
 
 namespace AgencyAnalytics\App;
-
 use DOMDocument;
 use DOMNodeList;
 
