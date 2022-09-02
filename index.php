@@ -3,15 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-spl_autoload_register(
-    function ($class){
-        $path = '/app/';
-        require  $path . str_replace('\\', '/', $class) . '.php';
-    }
-);
-
-//require_once "app/Crawler.php";
-
+require_once "app/Crawler.php";
 use AgencyAnalytics\App\Crawler;
 
 $crawler = new Crawler(
