@@ -99,6 +99,61 @@ class Crawler
     }
 
     /**
+     * Fires a cURL request
+     * @param string $url
+     * @param string $headers
+     * @return array
+     */
+    private function getHTTPRequest(string $url, string $headers): array
+    {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        if ($headers) {
+            curl_setopt($curl, CURLOPT_HEADER, true);
+            $resp = curl_exec($curl);
+            $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $totalTime = curl_getinfo($curl, CURLINFO_TOTAL_TIME);
+            curl_close($curl);
+            return [
+                'status' => $httpStatus,
+                'totalTime' => floor($totalTime * 1000),
+                'content' => $resp
+            ];
+        } else {
+            $resp = curl_exec($curl);
+            curl_close($curl);
+            return [
+                'content' => $resp
+            ];
+        }
+    }
+
+    /**
+     * Checks if an url is internal or external in the source code
+     * @param string $url
+     * @return bool
+     */
+    private function isInternal(string $url): bool
+    {
+        $parse = parse_url($url);
+        if (isset($parse['scheme']) || isset($parse['host'])) {
+            $parse_main = parse_url($this->mainURL);
+            if ($parse['host'] === $parse_main['host']) {
+                return true;
+            }
+            return false;
+        }
+        if (isset($parse['path'])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Fetches information for paths
      * @param string $url
      * @param array $paths
@@ -161,6 +216,36 @@ class Crawler
     }
 
     /**
+     * fetches word count inside the body tag
+     * @param string $url
+     * @return void
+     */
+    private function fetchWordCount(string $url): void
+    {
+        libxml_use_internal_errors(true);
+        $html = $this->getHTTPRequest($url, false);
+
+        $getDocument = new DOMDocument();
+        $getDocument->preserveWhiteSpace = false;
+        $getDocument->loadHTML($html['content']);
+
+        $optionals = ['iframe']; //just to show unpacking inside an array :)
+        $removeTags = ['script', 'style', ...$optionals, 'link', 'script'];
+
+        foreach ($removeTags as $tag) {
+            $element = $getDocument->getElementsByTagName($tag);
+            foreach ($element as $item) {
+                $item->parentNode->removeChild($item);
+            }
+        }
+
+        $getDocument->saveHTML();
+        $html = $getDocument->getElementsByTagName('body')->item(0)->nodeValue;
+        $count = str_word_count(preg_replace("/\n\t+/", "", $html));
+        $this->avgWordCount[] = $count;
+    }
+
+    /**
      * Scans for the titles and adds them to the array
      * @param DOMNodeList $titles
      * @return void
@@ -213,91 +298,6 @@ class Crawler
                     $this->imgStorage[] = $src;
                 }
             }
-        }
-    }
-
-    /**
-     * fetches word count inside the body tag
-     * @param string $url
-     * @return void
-     */
-    private function fetchWordCount(string $url): void
-    {
-        libxml_use_internal_errors(true);
-        $html = $this->getHTTPRequest($url, false);
-
-        $getDocument = new DOMDocument();
-        $getDocument->preserveWhiteSpace = false;
-        $getDocument->loadHTML($html['content']);
-
-        $optionals = ['iframe']; //just to show unpacking inside an array :)
-        $removeTags = ['script', 'style', ...$optionals, 'link', 'script'];
-
-        foreach ($removeTags as $tag) {
-            $element = $getDocument->getElementsByTagName($tag);
-            foreach ($element as $item) {
-                $item->parentNode->removeChild($item);
-            }
-        }
-
-        $getDocument->saveHTML();
-        $html = $getDocument->getElementsByTagName('body')->item(0)->nodeValue;
-        $count = str_word_count(preg_replace("/\n\t+/", "", $html));
-        $this->avgWordCount[] = $count;
-    }
-
-    /**
-     * Checks if an url is internal or external in the source code
-     * @param string $url
-     * @return bool
-     */
-    private function isInternal(string $url): bool
-    {
-        $parse = parse_url($url);
-        if (isset($parse['scheme']) || isset($parse['host'])) {
-            $parse_main = parse_url($this->mainURL);
-            if ($parse['host'] === $parse_main['host']) {
-                return true;
-            }
-            return false;
-        }
-        if (isset($parse['path'])) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Fires a cURL request
-     * @param string $url
-     * @param string $headers
-     * @return array
-     */
-    private function getHTTPRequest(string $url, string $headers): array
-    {
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-
-        if ($headers) {
-            curl_setopt($curl, CURLOPT_HEADER, true);
-            $resp = curl_exec($curl);
-            $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            $totalTime = curl_getinfo($curl, CURLINFO_TOTAL_TIME);
-            curl_close($curl);
-            return [
-                'status' => $httpStatus,
-                'totalTime' => floor($totalTime * 1000),
-                'content' => $resp
-            ];
-        } else {
-            $resp = curl_exec($curl);
-            curl_close($curl);
-            return [
-                'content' => $resp
-            ];
         }
     }
 }
