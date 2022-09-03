@@ -1,8 +1,11 @@
 {
     "name": "agencyanalytics/app",
+    "description": "Just a spider",
     "type": "project",
     "autoload": {
-        "classmap": ["app/"]
+        "psr-4": {
+            "Agencyanalytics\\App\\": "app/"
+        }
     },
     "require": {}
 }
