@@ -6,9 +6,7 @@ ini_set('display_errors', '1');
 
 require 'vendor/autoload.php';
 
-use AgencyAnalytics\App\Crawler;
-
-$crawler = new Crawler(
+$crawler = new AgencyAnalytics\App\Crawler(
     url: 'https://agencyanalytics.com',
     depth: 5
 );
