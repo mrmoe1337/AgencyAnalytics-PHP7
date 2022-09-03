@@ -1,9 +1,9 @@
 {
-    "name": "mfaridi/agency-analytics-php7",
+    "name": "agencyanalytics/app",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Mfaridi\\AgencyAnalyticsPhp7\\": "app/"
+            "Agencyanalytics\\App\\": "app/"
         }
     },
     "require": {}
