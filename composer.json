@@ -2,9 +2,7 @@
     "name": "agencyanalytics/app",
     "type": "project",
     "autoload": {
-        "psr-4": {
-            "Agencyanalytics\\App\\": "app/"
-        }
+        "classmap": ["app/"]
     },
     "require": {}
 }
