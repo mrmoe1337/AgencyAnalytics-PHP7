@@ -1,0 +1,11 @@
+{
+    "name": "agencyanalytics/app",
+    "description": "Just a spider...",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Agencyanalytics\\App\\": "src/"
+        }
+    },
+    "require": {}
+}
