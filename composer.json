@@ -7,5 +7,10 @@
             "Agencyanalytics\\App\\": "app/"
         }
     },
-    "require": {}
+    "require": {},
+    "config": {
+        "platform": {
+            "php": "8.1.9"
+        }
+    }
 }
