@@ -8,9 +8,9 @@ ini_set('display_errors', '1');
 spl_autoload_register(function ($class){
     require "/app/".$class.".php";
 });
-use AgencyAnalytics\App\Crawler;
+//use AgencyAnalytics\App\Crawler;
 
-$crawler = new Crawler(
+$crawler = new \AgencyAnalytics\App\Crawler(
     url: 'https://agencyanalytics.com',
     depth: 5
 );
