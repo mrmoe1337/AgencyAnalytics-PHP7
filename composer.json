@@ -7,7 +7,10 @@
             "Agencyanalytics\\App\\": "app/"
         }
     },
-    "require": {},
+    "require": {
+      "ext-dom": "*",
+        "ext-curl": "*"
+    },
     "config": {
         "platform": {
             "php": "8.1.9"
