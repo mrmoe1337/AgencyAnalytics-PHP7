@@ -8,7 +8,7 @@
         }
     },
     "require": {
-      "ext-dom": "*",
+        "ext-dom": "*",
         "ext-curl": "*",
         "ext-libxml": "*"
     },
